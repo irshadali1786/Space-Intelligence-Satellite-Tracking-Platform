@@ -41,13 +41,13 @@ CelesTrak provides published orbital elements (TLE/OMM). SGP4 calculates estimat
 
 **Mission Control**
 
-![Mission Control Profile](screenshots/MISSION%20CONTROL%20PROFILE.jpeg)
+![Mission Control Profile](screenshots/MISSIONCONTROL>SATELITEPROFILE.jpeg)
 
-![Mission Control Analytics](screenshots/MISSION%20CONTROL%20ANALYTICS.jpeg)
+![Mission Control Analytics](screenshots/MISSIONCONTROL>ANALYTICS.jpeg)
 
 **Estimated Close Approaches**
 
-![Estimated Close Approaches](screenshots/ESTIMATED%20CLOSE%20APPROACHES.jpeg)
+![Estimated Close Approaches](screenshots/ESTIMATEDCLOSEAPPROACHES.jpeg)
 
 **Saved Satellites**
 
