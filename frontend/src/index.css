@@ -1,0 +1,269 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ════════════════════════════════════════════════════════════════════
+   ORBITX · Mission-control design system
+   Obsidian black  +  warm amber (signal)  +  metallic gold (structure)
+   Presentation only — no behaviour lives in this file.
+   ════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --gold-rgb: 201, 162, 75;
+  --amber-rgb: 233, 162, 59;
+  --bracket: rgba(241, 216, 143, 0.9);
+  /* brushed-metal ramp used for chrome, buttons and display numerals */
+  --metal: linear-gradient(180deg, #FFF3C4 0%, #F1D88F 26%, #D4A63C 52%, #8F6A1C 76%, #E3B94F 100%);
+  --metal-flat: linear-gradient(180deg, #F7DF94 0%, #D9A93D 55%, #A07420 100%);
+}
+
+html { color-scheme: dark; }
+html, body, #root { height: 100%; }
+body { @apply bg-obsidian text-ink font-sans antialiased; font-size: 14px; letter-spacing: 0.005em; }
+::selection { background: rgba(233, 162, 59, 0.35); color: #fff; }
+
+/* One consistent keyboard focus state: amber ring */
+:where(a, button, [role="button"], summary):focus-visible {
+  outline: 2px solid rgba(255, 194, 102, 0.9);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* App canvas: obsidian with a faint engineering grid and an overhead amber haze */
+.app-bg {
+  background-color: #050505;
+  background-image:
+    radial-gradient(ellipse 70% 38% at 50% -8%, rgba(233, 162, 59, 0.10), transparent 70%),
+    linear-gradient(rgba(var(--gold-rgb), 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--gold-rgb), 0.035) 1px, transparent 1px);
+  background-size: auto, 48px 48px, 48px 48px;
+}
+
+@layer components {
+  /* ── typography ── */
+  .eyebrow {
+    @apply inline-flex items-center gap-2.5 font-mono text-[10.5px] font-medium uppercase tracking-[0.26em] text-amber;
+  }
+  .eyebrow::before { content: ""; width: 22px; height: 1px; background: var(--metal-flat); }
+  .h-edit { @apply font-display font-medium uppercase tracking-[0.02em] text-ink; }
+  .page-title {
+    @apply font-display font-medium uppercase tracking-[0.015em] text-ink text-[34px] sm:text-[46px] leading-[1.02];
+  }
+  .num { @apply font-mono tabular-nums; }
+  .hairline { @apply border-line border; }
+  .metal {
+    background: var(--metal);
+    -webkit-background-clip: text; background-clip: text;
+    color: transparent; -webkit-text-fill-color: transparent;
+  }
+
+  /* ── layout ── */
+  .page { @apply w-full max-w-[1680px] mx-auto px-4 sm:px-6 lg:px-9 py-6 lg:py-9; }
+  .page-head {
+    @apply relative mb-8 flex flex-col gap-5 pb-6 sm:flex-row sm:items-end sm:justify-between;
+  }
+  .page-head::after, header.page-head::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px;
+    background:
+      linear-gradient(90deg, #F1D88F, #F1D88F) 0 0 / 72px 1px no-repeat,
+      linear-gradient(90deg, rgba(var(--gold-rgb), 0.32), transparent 75%);
+  }
+
+  /* ── surfaces: engineered panels with gold corner brackets ── */
+  .card, .card-glass {
+    position: relative;
+    border-radius: 2px;
+    border: 1px solid rgba(var(--gold-rgb), 0.16);
+  }
+  .card {
+    background: linear-gradient(180deg, rgba(22, 18, 12, 0.94) 0%, rgba(9, 9, 8, 0.97) 100%);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6), 0 30px 50px -34px rgba(0, 0, 0, 1);
+  }
+  .card-glass {
+    background: rgba(8, 7, 5, 0.74);
+    backdrop-filter: blur(14px) saturate(1.2); -webkit-backdrop-filter: blur(14px) saturate(1.2);
+    border-color: rgba(var(--gold-rgb), 0.28);
+    box-shadow: 0 20px 50px -18px rgba(0, 0, 0, 0.95);
+  }
+  .card::before, .card-glass::before {
+    content: ""; position: absolute; inset: -1px; z-index: 3; pointer-events: none;
+    background:
+      linear-gradient(var(--bracket), var(--bracket)) top left / 16px 1px no-repeat,
+      linear-gradient(var(--bracket), var(--bracket)) top left / 1px 16px no-repeat,
+      linear-gradient(var(--bracket), var(--bracket)) top right / 16px 1px no-repeat,
+      linear-gradient(var(--bracket), var(--bracket)) top right / 1px 16px no-repeat,
+      linear-gradient(var(--bracket), var(--bracket)) bottom left / 16px 1px no-repeat,
+      linear-gradient(var(--bracket), var(--bracket)) bottom left / 1px 16px no-repeat,
+      linear-gradient(var(--bracket), var(--bracket)) bottom right / 16px 1px no-repeat,
+      linear-gradient(var(--bracket), var(--bracket)) bottom right / 1px 16px no-repeat;
+  }
+  /* thin specular line along the top edge, like machined metal catching light */
+  .card::after {
+    content: ""; position: absolute; left: 12%; right: 12%; top: 0; height: 1px; z-index: 3; pointer-events: none;
+    background: linear-gradient(90deg, transparent, rgba(241, 216, 143, 0.5), transparent);
+  }
+  .card-pad { @apply p-5 sm:p-6; }
+  .card-title {
+    @apply mb-4 flex items-center gap-2.5 font-display text-[14px] font-semibold uppercase tracking-[0.2em] text-goldhi;
+  }
+  .card-title::before {
+    content: ""; width: 6px; height: 6px; flex: none; transform: rotate(45deg);
+    background: #E9A23B; box-shadow: 0 0 10px rgba(233, 162, 59, 0.8);
+  }
+  .card-title::after {
+    content: ""; flex: 1; height: 1px; min-width: 16px;
+    background: linear-gradient(90deg, rgba(var(--gold-rgb), 0.4), transparent);
+  }
+  .card-hover { @apply transition-[border-color,box-shadow] duration-200 hover:border-gold/40; }
+  .card-hover:hover { box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6), 0 0 32px -10px rgba(233, 162, 59, 0.35); }
+
+  /* Telemetry tile used for headline numbers */
+  .kpi { @apply flex flex-col justify-between px-5 py-4; }
+  .kpi-label { @apply font-mono text-[10px] font-medium uppercase tracking-[0.22em] text-muted; }
+  .kpi-value { @apply font-display text-[34px] sm:text-[40px] font-medium leading-none tracking-[0.01em]; font-variant-numeric: tabular-nums; }
+  .kpi-sub { @apply font-mono text-[10.5px] uppercase tracking-[0.12em] text-muted/80; }
+
+  /* Stage behind the 3D globe: deep black, orbit rings, crosshair and ruler ticks.
+     The WebGL canvas is transparent so this shows through. */
+  .globe-stage {
+    @apply relative overflow-hidden;
+    background:
+      repeating-linear-gradient(90deg, rgba(var(--gold-rgb), 0.4) 0 1px, transparent 1px 28px) 0 0 / 100% 6px no-repeat,
+      repeating-linear-gradient(90deg, rgba(var(--gold-rgb), 0.4) 0 1px, transparent 1px 28px) 0 100% / 100% 6px no-repeat,
+      repeating-linear-gradient(0deg, rgba(var(--gold-rgb), 0.4) 0 1px, transparent 1px 28px) 0 0 / 6px 100% no-repeat,
+      repeating-linear-gradient(0deg, rgba(var(--gold-rgb), 0.4) 0 1px, transparent 1px 28px) 100% 0 / 6px 100% no-repeat,
+      linear-gradient(rgba(var(--gold-rgb), 0.08), rgba(var(--gold-rgb), 0.08)) 50% 0 / 1px 100% no-repeat,
+      linear-gradient(rgba(var(--gold-rgb), 0.08), rgba(var(--gold-rgb), 0.08)) 0 50% / 100% 1px no-repeat,
+      repeating-radial-gradient(circle at 50% 50%, transparent 0 86px, rgba(var(--gold-rgb), 0.075) 86px 87px),
+      radial-gradient(circle at 50% 50%, rgba(233, 162, 59, 0.13) 0%, rgba(233, 162, 59, 0.03) 38%, transparent 62%),
+      #030303;
+  }
+  .globe-stage::before { inset: 0; }
+
+  /* floating HUD label that sits on top of the 3D view */
+  .hud-chip {
+    @apply inline-flex items-center gap-2 border border-gold/30 bg-obsidian/80 px-2.5 py-1 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-goldhi backdrop-blur;
+    border-radius: 1px;
+  }
+  .hud-note { @apply font-mono text-[10px] uppercase tracking-[0.16em] text-muted; }
+
+  /* ── controls ── */
+  .btn {
+    @apply relative inline-flex items-center justify-center gap-2 px-6 py-[11px] font-display text-[15px] font-semibold uppercase tracking-[0.2em] text-obsidian
+           transition-[filter,transform] duration-150
+           hover:brightness-[1.14] active:translate-y-px active:brightness-95
+           disabled:opacity-35 disabled:pointer-events-none;
+    background: var(--metal-flat);
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+    text-shadow: 0 1px 0 rgba(255, 244, 200, 0.45);
+  }
+  .btn:focus-visible { outline: 2px solid #050505; outline-offset: -5px; border-radius: 0; }
+  .btn-quiet {
+    @apply inline-flex items-center justify-center gap-2 border border-gold/30 bg-transparent px-3.5 py-[7px] font-mono text-[10.5px] font-medium uppercase tracking-[0.16em] text-ivory
+           transition-[background-color,color,border-color,box-shadow,transform] duration-150
+           hover:border-gold/80 hover:bg-gold/[0.08] hover:text-goldhi active:translate-y-px
+           disabled:opacity-35 disabled:pointer-events-none;
+    border-radius: 1px;
+  }
+  .btn-quiet.btn-amber { @apply border-amber/55 bg-amber/[0.1] text-amberhi hover:border-amber hover:bg-amber/[0.2] hover:text-amberhi; }
+  .btn-quiet.btn-amber:hover { box-shadow: 0 0 20px -6px rgba(233, 162, 59, 0.6); }
+
+  .input {
+    @apply w-auto border border-line2 bg-black/55 px-3 py-[9px] font-mono text-[12.5px] text-ink placeholder:text-muted/70
+           transition-[border-color,box-shadow] duration-150 hover:border-gold/50
+           focus:outline-none focus:border-amber;
+    border-radius: 1px;
+  }
+  .input:focus { box-shadow: 0 0 0 1px rgba(233, 162, 59, 0.45), 0 0 22px -6px rgba(233, 162, 59, 0.5); }
+  select.input {
+    appearance: none; -webkit-appearance: none; padding-right: 2.2rem; cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23C9A24B' stroke-width='2.2' stroke-linecap='square'%3E%3Cpath d='M5 9l7 7 7-7'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 0.75rem center;
+  }
+  select.input option { background: #0A0A09; color: #F6EFDD; }
+  .field-label { @apply flex flex-col gap-2 font-mono text-[10px] font-medium uppercase tracking-[0.2em] text-muted; }
+
+  /* ── badges / status ── */
+  .badge {
+    @apply inline-flex items-center border border-gold/35 bg-gold/[0.07] px-2 py-[3px] font-mono text-[10px] font-medium uppercase tracking-[0.14em] text-goldhi;
+    border-radius: 1px;
+  }
+  .dot { @apply inline-block h-[7px] w-[7px] rounded-full bg-amber; box-shadow: 0 0 8px rgba(233, 162, 59, 0.9); }
+  .dot-live { animation: orbitx-pulse 2.4s ease-in-out infinite; }
+  .callout-warn {
+    @apply relative border border-warn/30 bg-warn/[0.07] py-2.5 pl-6 pr-4 text-[13px] text-warn;
+    border-radius: 1px;
+    background-image: repeating-linear-gradient(-45deg, rgba(239, 91, 63, 0.95) 0 3px, transparent 3px 7px);
+    background-size: 7px 100%; background-repeat: no-repeat; background-position: left;
+  }
+  .empty {
+    @apply border border-dashed border-gold/25 bg-black/30 px-4 py-7 text-center font-mono text-[11.5px] uppercase leading-relaxed tracking-[0.12em] text-muted;
+    border-radius: 1px;
+  }
+
+  /* spec-sheet rows with dotted leaders (selected-satellite readout) */
+  .spec-row { @apply flex items-baseline gap-2.5 py-[7px] text-[12.5px]; }
+  .spec-row .leader { flex: 1; min-width: 14px; border-bottom: 1px dotted rgba(var(--gold-rgb), 0.28); transform: translateY(-3px); }
+  .spec-group-title {
+    @apply mb-1.5 flex items-center gap-3 font-display text-[13px] font-semibold uppercase tracking-[0.22em] text-amber;
+  }
+  .spec-group-title::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, rgba(233, 162, 59, 0.45), transparent); }
+
+  /* ── tables ── */
+  .tbl { @apply w-full border-collapse text-[13px]; }
+  .tbl thead th {
+    @apply whitespace-nowrap px-4 py-3 font-mono text-[10px] font-medium uppercase tracking-[0.2em] text-gold;
+    background: #0F0D09; border-bottom: 1px solid rgba(var(--gold-rgb), 0.35);
+  }
+  .tbl tbody td { @apply px-4 py-3; border-bottom: 1px solid rgba(var(--gold-rgb), 0.08); }
+  .tbl tbody tr { @apply transition-colors duration-100; }
+  .tbl tbody tr:hover { background: linear-gradient(90deg, rgba(233, 162, 59, 0.11), rgba(233, 162, 59, 0.02) 65%, transparent); }
+  .tbl tbody tr:hover td:first-child { box-shadow: inset 2px 0 0 #E9A23B; }
+  .tbl tbody tr:last-child td { border-bottom: 0; }
+  /* zero-specificity default so utilities like text-right on <th>/<td> still win */
+  :where(.tbl) :where(th) { text-align: left; }
+  .tbl-scroll { @apply overflow-x-auto; }
+
+  /* ── loading ── */
+  .skeleton {
+    border-radius: 1px;
+    background: linear-gradient(100deg, rgba(var(--gold-rgb), 0.05) 20%, rgba(var(--gold-rgb), 0.16) 50%, rgba(var(--gold-rgb), 0.05) 80%);
+    background-size: 240% 100%;
+    animation: orbitx-sweep 1.8s linear infinite;
+  }
+
+  /* ── watchlist: decorative running index ── */
+  .indexed { counter-reset: row; }
+  .indexed > li { counter-increment: row; }
+  .indexed > li::before {
+    content: counter(row, decimal-leading-zero);
+    @apply hidden font-mono text-[11px] tracking-[0.2em] text-gold/70 sm:block;
+    width: 2.2rem; flex: none;
+  }
+}
+
+@keyframes orbitx-pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 8px rgba(233, 162, 59, 0.9), 0 0 0 0 rgba(233, 162, 59, 0.5); }
+  50% { opacity: 0.6; box-shadow: 0 0 8px rgba(233, 162, 59, 0.5), 0 0 0 6px rgba(233, 162, 59, 0); }
+}
+@keyframes orbitx-sweep { from { background-position: 120% 0; } to { background-position: -120% 0; } }
+@keyframes orbitx-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .dot-live, .skeleton, .spin-slow, .spin-slower { animation: none !important; }
+  * { transition-duration: 0.01ms !important; }
+}
+
+/* decorative slow-rotating orbit rings (landing) */
+.spin-slow { animation: orbitx-spin 90s linear infinite; }
+.spin-slower { animation: orbitx-spin 160s linear infinite reverse; }
+
+/* Native date/time pickers in dark, with a gold picker icon */
+input[type="datetime-local"], input[type="number"] { color-scheme: dark; }
+input[type="datetime-local"]::-webkit-calendar-picker-indicator { filter: invert(0.75) sepia(0.7) saturate(2.5) hue-rotate(2deg); cursor: pointer; }
+
+/* Scrollbars: slim gold rails */
+* { scrollbar-width: thin; scrollbar-color: #4A3D22 transparent; }
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #3A301A; border-radius: 0; }
+::-webkit-scrollbar-thumb:hover { background: #8A6420; }
